@@ -1,25 +1,137 @@
 <template>
-	<view>
-		hello list
+	<view class="list">
+		<view class="fixbg"></view>
+		<MusicHead title="歌单" :icon='true' color="white"></MusicHead>
+		<view class="container">
+			<!-- 设置保持头部不用MusicHead不动，只有下面主题部分滑动 -->
+			<scroll-view scroll-y="true" >
+				<view class="list-head">
+					<view class="list-head-img">
+						<image src="../../static/logo.png" mode=""></image>
+						<text class="iconfont icon-yousanjiao">30万</text>
+					</view>
+					<view class="list-head-text">
+						<view>aaaaaaaa</view>
+						<view>
+							<image src="../../static/about1.jpg" mode=""></image>bbbbbbbbbbb
+						</view>
+						<view>
+							ccccccc
+						</view>
+					</view>
+				</view>
+				
+				<!-- <view class="fixbg" :style="{'background-inage':'url('+playlist.coverImgUrl+')'}"></view>
+						<MusicHead title="歌单" :icon='true' color="white"></MusicHead>
+						<view class="container">
+							<scroll-view scroll-y="true" >
+								<view class="list-head">
+									<view class="list-head-img">
+										<image :src="playlist.coverImgUrl" mode=""></image>
+										<text class="iconfont icon-yousanjiao">{{playlist.playCount}}</text>
+									</view>
+									<view class="list-head-text">
+										<view>{{playlist.name}}</view>
+										<view>
+											<image :src="playlist.creator.avatarUrl" mode=""></image>{{playlist.ckname}}
+										</view>
+										<view>
+											{{playlist.description}}
+										</view>
+									</view>
+								</view> -->
+				
+				<!-- 差异化--条件编译，这里面的只有微信小程序才会识别，其他浏览器不会显示 -->
+				<!-- #ifdef MP-WEIXIN -->
+				<!-- open-type="share"微信小程序分享按钮必须写这个 -->
+					<button class="list-share" open-type="share">
+						<text class="iconfont icon-fenxiang"></text>分享给微信好友
+					</button>
+				<!-- #endif -->
+				<view class="list-music">
+					<view class="list-music-head">
+						<text class="iconfont icon-bofang1"></text>
+						<text>播放全部</text>
+						<text>（共100首）</text>
+					</view>
+					<view class="list-music-item">
+						<view class="list-music-top">1</view>
+						<view class="list-music-song">
+							<view>与我无关</view>
+							<view>
+								<image src="../../static/about1.jpg" mode=""></image>
+								<image src="../../static/about1.jpg" mode=""></image>
+								啊冗-与我无关
+							</view>
+						</view>
+						<text class="iconfont icon-bofang"></text>
+					</view>
+					
+				</view>
+			</scroll-view>
+		</view>
 	</view>
 </template>
 
 <script>
+	import '@/common/iconfont.css'
+	import MusicHead from '../../components/MusicHead/MusicHead'
+	import {list} from '../../common/api.js'
 	export default {
 		data() {
 			return {
-				
+				playlist:{}
 			}
 		},
-		onLoad(options){
-			console.log(options.ListId)
+		components:{
+			MusicHead
 		},
+		onLoad(options) {
+			list(options.ID).then((res)=>{
+				console.log(res)
+			})
+		},
+		// onLoad(options){
+		// 	list(options.id).then((res)=>{
+		// 		console.log(res)
+		// 		// if(res[1].data.code == '200'){
+		// 		// 	this.playlist = res[1].data.playlist
+		// 		//  }
+		// 	})
+		//},
 		methods: {
 			
 		}
 	}
 </script>
 
-<style>
-
+<style scoped>
+	.list{}
+	.list-head{display: flex;margin: 30rpx;}
+	.list-head-img{width: 264rpx;height: 264rpx;border-radius: 30rpx;overflow: hidden;position: relative;margin-right: 42rpx;}
+	.list-head-img image{width: 100%;height: 100%;}
+	.list-head-img text{ position: absolute;right: 8rpx;top: 8rpx;color: white;font-size: 26rpx;}
+	.list-head-text{ flex: 1;color: #f0f2f7;}
+	.list-head-text view:nth-child(1){color: white;font-size: 34rpx;}
+	.list-head-text view:nth-child(2){display: flex;display: flex;margin: 20rpx 0;align-items: center;}
+	.list-head-text view:nth-child(2) image{width: 54rpx;height: 54rpx;border-radius: 50%;margin-right: 14rpx;font-size: 24rpx;}
+	.list-head-text view:nth-child(3){line-height: 34rpx;font-size: 30rpx;}
+	
+	.list-share{width: 330rpx;height: 74rpx;margin: 0 auto;background: rgba(0,0,0,0.4);border-radius: 37rpx;color: white;text-align: center;line-height: 74rpx;font-size: 28rpx;}
+	.list-share text{margin-right: 16rpx;}
+	
+	.list-music{background: white;border-radius: 50rpx;margin-top: 40rpx;overflow: hidden;}
+	.list-music-head{height: 50rpx;margin: 30rpx 0 70rpx 22rpx;}
+	.list-music-head text:nth-child(1){height: 50rpx;font-size: 50rpx;}
+	.list-music-head text:nth-child(2){font-size: 30rpx;margin: 0 10rpx 0 26rpx;}
+	.list-music-head text:nth-child(3){font-size: 26rpx; color: #b2b2b2;}
+	.list-music-item{display: flex;margin: 0 32rpx 66rpx 46rpx;align-items: center;color: #959595;}
+	.list-music-top{width: 58rpx;font-size: 30rpx;line-height: 30rpx;}
+	.list-music-song{flex: 1;}
+	.list-music-song view:nth-child(1){font-size: 28rpx;color: black;}
+	.list-music-song view:nth-child(2){display: flex;font-size: 20rpx;align-items: center;}
+	.list-music-song view:nth-child(2) image{width: 32rpx;height: 20rpx;margin-right: 10rpx;}
+	.list-music-item text{font-size: 50rpx;color: #c7c7c7;}
+	
+	
 </style>
