@@ -20,7 +20,7 @@
 							<view>3.与我无关</view>
 						</view>
 					</view> -->
-					<view class="index-list-item" v-for="(item,index) in topList" :key='index' @tap="headleToList(item.ListId)">
+					<view class="index-list-item" v-for="(item,index) in topList" :key='index' @tap="headleToList(item.listId)">
 						<view class="index-list-item-img">
 							<image :src="item.coverImgUrl" mode=""></image>
 							<text>{{item.updateFrequency}}</text>
@@ -52,20 +52,18 @@
 		},
 		onLoad() {
 			topList().then((res)=>{
-				//console.log(res)
 				if(res.length){
 					this.topList = res
 				}
 				
 			})
 		},
-		methods: {
-			headleToList(ListId){
+		methods:{
+			headleToList(listId){
 				uni.navigateTo({
-					url: '/pages/list/list?ListId=' + ListId,
+					url: '/pages/list/list?listId=' + listId,
 				});
 			}
-
 		}
 	}
 </script>
