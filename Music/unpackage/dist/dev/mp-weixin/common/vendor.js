@@ -7784,6 +7784,69 @@ function normalizeComponent (
     if(false) { var cssReload; }
   
 
+/***/ }),
+/* 18 */
+/*!***********************************************!*\
+  !*** F:/小甜甜/source/Music/Music/common/api.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.topList = topList;exports.list = list;var _config = __webpack_require__(/*! ./config.js */ 19);
+
+
+function topList() {
+
+  //let ListIds = ['3','0','2','1'];
+
+  var ListIds = ['19723756', '3779629', '2884035', '3778678'];
+
+  return new Promise(function (reslove, reject) {
+
+    uni.request({
+      url: "".concat(_config.baseUrl, "/toplist/detail"),
+      method: 'GET',
+      data: {},
+      success: function success(res) {
+        var result = res.data.list;
+        //console.log(result);
+        for (var i = 0; i <= ListIds.length; i++) {
+          result[i].listId = ListIds[i];
+        }
+        result.length = 4;
+        //在获取的data中取前四个中，遇到一个问题，用result.length = 4会报错，
+        //然后我用数组的截取splice
+        //reslove(result.splice(0,4));
+        reslove(result);
+      } });
+
+
+  });
+
+}
+
+function list(listId) {
+  return uni.request({
+    url: "".concat(_config.baseUrl, "/playlist/detail?id=").concat(listId),
+    //url: `${baseUrl}/top/list?id=${listId}`,
+    //url: `https://music.163.com/api/playlist/detail?id=${listId}`,
+    method: 'GET' });
+
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 19 */
+/*!**************************************************!*\
+  !*** F:/小甜甜/source/Music/Music/common/config.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.baseUrl = void 0;var baseUrl = 'http://localhost:3000';exports.baseUrl = baseUrl;
+
 /***/ })
 ]]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map
