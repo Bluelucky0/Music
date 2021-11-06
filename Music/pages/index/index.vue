@@ -4,10 +4,23 @@
 		<view class="container">
 			<!-- 设置保持头部不用MusicHead不动，只有下面主题部分滑动 -->
 			<scroll-view scroll-y="true" >
-				<view class="index-search">
+				<view class="index-search" @tap="headleToSearch">
 					<text class="iconfont icon-fangdajing"></text>
 					<input type="text" placeholder="搜索歌曲"/>
 				</view>
+				<!-- <view v-if="isLoading">
+					<m-for-skeleton
+					:avatarSize="200"
+					:row="3"
+					:loading="isLoading"
+					isarc="square"
+					v-for="(item,key) in 4"
+					:titleStyle:'{}'
+					:title:'false'
+					:key="key">
+					<view>asdas</view>
+					</m-for-skeleton>
+				</view> -->
 				<view class="index-list">
 					<!-- <view class="index-list-item">
 						<view class="index-list-item-img">
@@ -41,18 +54,25 @@
 	import '@/common/iconfont.css'
 	import MusicHead from '../../components/MusicHead/MusicHead'
 	import {topList} from '../../common/api.js'
+	// import mForSkeleton from "@/components/m-for-skeleton/m-for-skeleton";
 	export default {
 		data() {
 			return {
-				topList:[]
+				topList:[],
+				// isLoading:true
 			}
 		},
 		components:{
-			MusicHead
+			MusicHead,
+			// mForSkeleton
 		},
 		onLoad() {
 			topList().then((res)=>{
 				if(res.length){
+					// setTimeout(()=>{
+					// 	this.topList = res
+					// 	this.isLoading = false
+					// },1000)
 					this.topList = res
 				}
 				
@@ -62,6 +82,11 @@
 			headleToList(listId){
 				uni.navigateTo({
 					url: '/pages/list/list?listId=' + listId,
+				});
+			},
+			headleToSearch(){
+				uni.navigateTo({
+					url: '/pages/search/search',
 				});
 			}
 		}

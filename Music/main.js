@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import store from 'store/index.js'
 
 Vue.config.productionTip = false
 
@@ -18,9 +19,20 @@ Vue.filter('formatCount',function(value){
 	else{
 		return value
 	}
+});
+
+// Vue.filter('formatTime',function(value){
+// 	var data = new Data(value)
+// 	return data.getFullYear() + '年' + (data.getMonth() + 1) + '月' + data.getData() + '日';
+// });
+Vue.filter('formatTime',function(value){
+	//data 不等于 date, 写错了找了半天
+	var data = new Date(value)
+	return data.getFullYear() + "年" +(data.getMonth()+1) +'月' + data.getDate()+'日'
 })
 
 const app = new Vue({
-    ...App
+    ...App,
+	store
 })
 app.$mount()
